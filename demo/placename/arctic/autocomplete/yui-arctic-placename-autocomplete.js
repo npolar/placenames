@@ -29,10 +29,20 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
   
   var name = function(properties) {
     if (properties.name) {
-      return properties.name;
+      return [properties.name];
     } else {
       return Y.Array.map(names(properties), function(n) {
         return n.name;
+      });
+    }
+  };
+  
+  var localType = function(properties) {
+    if (!properties.localTypes) {
+      return [];
+    } else {
+      return Y.Array.map(properties.localTypes, function(l) {
+        return l.type;
       });
     }
   };
@@ -42,12 +52,11 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
     return Y.Array.map(results, function (result) {
       var feature = result.raw;
       var p = feature.properties;
-      //console.log(p);
-      
+       
       var latitude = (p.latitude||0).toFixed(2);
       var longitude = (p.longitude||0).toFixed(2);
-
-      return '<div class="">'+ flag(p) + name(p).join(' / ') +' ('+latitude + 'N '+ longitude +'E)<br/>'+''+ p.type + '</div>';
+      
+      return '<div class="">'+ flag(p) + name(p).join(' / ') +' ('+latitude + 'N '+ longitude +'E)<br/>'+ p.type +' ('+ localType(p).join(' / ') + ')</div>';
     });
   };
 
