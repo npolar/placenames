@@ -27,3 +27,4 @@ build/Release
 node_modules
 TODO.md
 src/edit/placename-1.json
+dist
