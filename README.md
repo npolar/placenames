@@ -1,5 +1,7 @@
 # Placenames
 
-## Demos
+Source code for: https://data.npolar.no/placename
 
-* [Arctic placenames autocomplete](http://npolar.github.io/placenames/demo/placename/arctic/autocomplete/)
+### Demo
+
+* [Placenames autocomplete](http://npolar.github.io/placenames/demo/autocomplete/)
