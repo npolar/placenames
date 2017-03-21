@@ -2,8 +2,8 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
 
   Y.one('body').addClass('yui3-skin-sam');
 
-  var base = "//api.npolar.no";
-  var limit = 10;
+  var base = "http://api.npolar.no";
+  var limit = 20;
 
   // Npolar Placename GeoJSON API
   // Leave {query} and {callback}, they are replaced by YUI
