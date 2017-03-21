@@ -26,7 +26,7 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
   autocomplete.plug(
     Y.Plugin.AutoComplete, {
         resultHighlighter: 'phraseMatch',
-        //resultFormatter  : formatter,
+        resultFormatter  : formatter,
         resultListLocator: 'features',
         resultTextLocator: 'name.@value',
         source           : source
