@@ -7,7 +7,7 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
 
   // Npolar Placename GeoJSON API
   // Leave {query} and {callback}, they are replaced by YUI
-  var source = base + "/placename/?q-name.@value={query}&filter-status=official&callback={callback}&format=geojson&fields=id,type,geometry,name,area,terrain,terrain_type&limit="+limit+"";
+  var source = base + "/placename/?q-name.@value={query}&filter-status=official&not-terrain.nn=utmål|bygningar&callback={callback}&format=geojson&fields=id,type,geometry,name,area,terrain,terrain_type&limit="+limit+"";
 
   // Formatter for HTML injected into result list items (li elements)
   var formatter = function (query, results) {
@@ -25,8 +25,8 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
 
   autocomplete.plug(
     Y.Plugin.AutoComplete, {
-        resultHighlighter: 'subWordMatch',
-        resultFormatter  : formatter,
+        resultHighlighter: 'phraseMatch',
+        //resultFormatter  : formatter,
         resultListLocator: 'features',
         resultTextLocator: 'name.@value',
         source           : source
@@ -38,8 +38,8 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
 //  });
 
   autocomplete.ac.on('select', function (r) {
-    var id = r.result.raw.id;
-    window.location.href='https://data.npolar.no/placename/'+id;
+    var p = r.result.raw;
+    window.location.href='https://data.npolar.no/placename/'+p.id;
     //Y.one("#autocomplete-output").setHTML(JSON.stringify(r.result.raw));
   });
 
