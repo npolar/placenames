@@ -1,0 +1,42 @@
+{
+  "fieldsets": [
+    {
+      "title": "Name",
+      "fields": [
+        "name",
+        "status",
+        "latitude",
+        "longitude",
+        "altitude"
+      ]
+    },
+    {
+      "title": "Classification",
+      "fields": [
+        "area",
+        "country",
+        "country_of_origin",
+        "terrain_type",
+        "terrain"
+      ]
+    },
+    {
+      "title": "Texts",
+      "fields": [
+        "texts"
+      ]
+    },
+    {
+      "title": "Relations",
+      "fields": [
+        { "id": "relations" }
+      ]
+    },
+    {
+      "title": "Dates",
+      "fields": [
+        "created", "updated"
+      ]
+    }
+  ]
+}
