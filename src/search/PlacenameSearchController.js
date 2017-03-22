@@ -11,8 +11,7 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
     facets: `status,area,created_by,updated_by,terrain.${NpolarLang.getLang()}`
   };
   self.param = () => $location.search();
-  self.latest = false;
-
+  
   $controller('NpolarBaseController', {
     $scope: $scope
   });
@@ -48,9 +47,7 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
 
   self.searchLatest = () => {
     PlacenameResource.feed({ q:'', sort:'-created', facets: self.config.facets, limit:self.config.limit, fields: self.config.fields }).$promise.then(r => {
-      $scope.latest = true;
-      $scope.feed = r.feed;
-      self.sort = '-created';
+      $scope.latest = r.feed;
     });
   };
 
@@ -58,7 +55,7 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
   if (!self.param().q || self.param().q === "") {
     // Only fires on first load
     $location.search(Object.assign({}, self.param(), { 'filter-status': 'official'}));
-    self.searchLatest();
+    //self.searchLatest();
   } else {
     // User query (first load)
     $scope.latest = false;
@@ -66,9 +63,6 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
   }
 
   $scope.$on('$locationChangeSuccess', (event, data) => {
-    $scope.latest = false;
-    delete self.sort;
-    delete $location.search().sort;
     $scope.search(self.query());
   });
 }
