@@ -6,19 +6,37 @@
 	<title>Placenames bbox demo</title>
 </head>
 <body>
-	<h4>Bounding box demo (see console)</h4>
-	<div id="bbox"></div>
-	<script type="text/javascript" src="http://yui.yahooapis.com/3.18.0/build/yui/yui-min.js" charset="utf-8"></script>
+	<h4>Bounding box demo</h4>
+	<section>
+		<div id="bbox"></div>
+	</section>
 	<script type="text/javascript" src="./npolar-placename-bbox.js" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
 
-		var bbox = '16,80,17,81'; // w,s,e,n
-		var proc = function(fc) {
+		var bbox = '16.0,80.0,16.5,80.5'; // w,s,e,n
+		var bbox_elmt = document.getElementById('bbox');
+		bbox_elmt.insertAdjacentHTML('beforeend', '<code>bbox: ['+bbox+']</code>');
+
+		function createNameList(features) {
+			var bbox_elmt = document.getElementById('bbox');
+			var names = features.map(f => {
+				return '<li><a href="//data.npolar.no/placename/'+f.id+'">'
+					+ f.name['@value']+'</a> ['
+					+ f.geometry.coordinates[0] +','+f.geometry.coordinates[1]
+					+']</li>';
+			});
+			bbox_elmt.insertAdjacentHTML('beforeend', '<ul>'+names.join('')+'</ul>');
+		}
+
+		function proc(fc) {
 			if (fc && fc.features && fc.type === 'FeatureCollection') {
 				console.debug('bbox', bbox, 'names', fc.features);
+				createNameList(fc.features);
       }
 		}
+
 		var placename_bbox = new NpolarPlacenameBbox();
+		placename_bbox.jsonp = proc.name;
 		placename_bbox.find(bbox, proc);
 
 	</script>
