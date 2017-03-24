@@ -11,7 +11,7 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
     facets: `status,area,created_by,updated_by,terrain.${NpolarLang.getLang()}`
   };
   self.param = () => $location.search();
-  
+
   $controller('NpolarBaseController', {
     $scope: $scope
   });
@@ -30,9 +30,6 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
   };
   npdcAppConfig.search.local.results.detail = function(p) {
     let detail = `${p.area}${ p.country ? ' ['+ p.country +']' : ''} ${ $filter('i18n')(p.terrain) }`;
-    if ($scope.latest) {
-      detail += ` (${$filter('isodate')(p.created)})`;
-    }
     return detail;
   };
 
@@ -54,11 +51,10 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
   // When no query: show list of newest names (force official filter )
   if (!self.param().q || self.param().q === "") {
     // Only fires on first load
-    $location.search(Object.assign({}, self.param(), { 'filter-status': 'official'}));
+    $location.search(Object.assign({}, self.param(), { 'filter-status': 'official', 'filter-area': 'Svalbard'}));
     //self.searchLatest();
   } else {
     // User query (first load)
-    $scope.latest = false;
     $scope.search(self.query());
   }
 

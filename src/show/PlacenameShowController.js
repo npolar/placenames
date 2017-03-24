@@ -29,21 +29,23 @@ function PlacenameShowController($scope, $controller, $location, $routeParams, $
   self.loadRelations = (p) => {
     $scope.p = p;
 
-    $location.path(p.id).search({name: p.name['@value'], area: p.area });
+    // breaks back button @todo MERGE with current query...
+    // $location.path(p.id).search({name: p.name['@value'], area: p.area });
 
     if (!p.relations) {
       return;
     }
 
     // and the replaced might also be replaced :)
-    $scope.replaces = [];
-    (p.relations.replaces||[].concat(p.relations.same_as||[])).forEach(r => {
+    self.replaces = [];
+    (p.relations.replaces).forEach(r => {
       let id = self.uuid(r['@id']);
-      console.log(id);
       PlacenameResource.get({id}).$promise.then(r => {
-        $scope.replaces.push(r);
+        self.replaces.push(r);
       });
     });
+    // same_as
+    // replaced_by
   };
 
   self.show = () => {
@@ -54,6 +56,7 @@ function PlacenameShowController($scope, $controller, $location, $routeParams, $
     }
 
     if (name) {
+      console.debug('name');
       $scope.resource.array({ 'filter-properties.label': name, fields: 'id,area,name.@value', limit: 10 }).$promise.then((r) => {
 
       if (r && r.length > 1) {
@@ -61,6 +64,7 @@ function PlacenameShowController($scope, $controller, $location, $routeParams, $
         $location.path('/').search(search);
       } else if (r && r.length === 1 && r[0].name['@value'] === name) {
           id = r[0].id;
+          console.debug('location.path', id, 'search', {name, area: r[0].area });
           $location.path(id).search({name, area: r[0].area });
         } else {
          $scope.document = {};
@@ -69,6 +73,7 @@ function PlacenameShowController($scope, $controller, $location, $routeParams, $
       });
 
     } else {
+      console.debug('!name');
       $scope.show().$promise.then(self.loadRelations);
     }
 

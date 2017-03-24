@@ -1,4 +1,9 @@
 <!DOCTYPE html>
 <span><md-icon>subdirectory_arrow_left</md-icon><a href="/">NPDC</a><md-tooltip>Norwegian Polar Data Centre [Home]</md-tooltip></span>
+
+<section class="app-section" layout="column" ng-controller="PlacenameMapController as ctrl">
+  <div id="npolar-esri-leaflet-map" style="height:400px;" class="leaflet-map"></div>
+</section>
+
 <npdc:search-input feed="feed"></npdc:search-input>
 <npdc:search feed="feed" options="searchOptions"></npdc:search>

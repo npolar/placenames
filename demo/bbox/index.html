@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Placenames bbox demo</title>
+</head>
+<body>
+	<h4>Bounding box demo (see console)</h4>
+	<div id="bbox"></div>
+	<script type="text/javascript" src="http://yui.yahooapis.com/3.18.0/build/yui/yui-min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./npolar-placename-bbox.js" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+
+		var bbox = '16,80,17,81'; // w,s,e,n
+		var proc = function(fc) {
+			if (fc && fc.features && fc.type === 'FeatureCollection') {
+				console.debug('bbox', bbox, 'names', fc.features);
+      }
+		}
+		var placename_bbox = new NpolarPlacenameBbox();
+		placename_bbox.find(bbox, proc);
+
+	</script>
+</body>
+</html>

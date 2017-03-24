@@ -1,9 +1,5 @@
 <span><md-icon>subdirectory_arrow_left</md-icon><a href=".">Placename search</a></span>
 
-<section class="app-section" layout="column" ng-controller="PlacenameMapController">
-  <div id="npolar-esri-leaflet-map" style="height:400px;" class="leaflet-map"></div>
-</section>
-
 <article ng-controller="PlacenameShowController as ctrl" ng-show="p">
 
   <npdc:edit-button class="np-primary-control"></npdc:edit-button>
@@ -22,13 +18,11 @@
          {{ p.status }} {{ 'name'|t }}
        </span>
 
-       <span>{{ p.terrain_type | i18n }}: {{ p.terrain | i18n }}</span>
-       <span>[ {{ p.longitude}}, {{p.latitude}}, {{p.altitude||0}} ]</span>
      </md-card-content>
    </md-card>
   </section>
 
-  <section ng-if="p.texts">
+  <section>
     <md-card>
       <md-card-header>
         <md-card-avatar>
@@ -55,6 +49,10 @@
 
         <p>{{ p.texts.note | i18n }}</p>
 
+
+       <span>{{ p.terrain_type | i18n }}: {{ p.terrain | i18n }}</span>
+       <span>[ {{ p.longitude}}, {{p.latitude}}, {{p.altitude||0}} ]</span>
+
       </md-card-content>
     </md-card>
   </section>
@@ -72,7 +70,7 @@
       </md-card-header>
       <md-card-content>
 
-        <p ng-if="p.relations.replaces"><b>Replaces</b> <span ng-repeat="r in p.relations.replaces"><a ng-href="{{ uuid(r['@id']) }}">{{ r.name }}</a> </span></p>
+        <p ng-if="ctrl.replaces"><b>Replaces</b> <span ng-repeat="r in ctrl.replaces"><a ng-href="{{ r.id }}">{{ r.name['@value'] }}</a> </span></p>
 
         <p ng-if="p.relations.same_as"><b>Same as</b> <span ng-repeat="r in p.relations.same_as"><a ng-href="{{ uuid(r['@id']) }}">{{ r.name }}</a> </span></p>
 
