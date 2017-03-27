@@ -4,6 +4,9 @@
 
 Source code for: https://data.npolar.no/placename
 
-### Demo
+### Demos
 
-* [Placenames autocomplete](http://npolar.github.io/placenames/demo/autocomplete/)
+* [autocomplete](http://npolar.github.io/placenames/demo/autocomplete/)
+* [bbox](http://npolar.github.io/placenames/demo/bbox/)
+* [supercluster](http://npolar.github.io/placenames/demo/supercluster/)
+
