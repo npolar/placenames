@@ -3,9 +3,20 @@
 /*global L */
 
 let url = '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+var map = L.map('map').setView([76,9], 4);
+let minZoom = 3;
+let maxZoom = 17;
+let attribution = '<a href="http://npolar.no">Norwegian Polar Institute</a> &mdash; <a href="https://doi.org/10.21334/npolar.2011.a2813eb6">Place names in Norwegian polar areas</a> | <a href="https://github.com/mapbox/supercluster">supercluster</a>';
 
-// Alternative map:
-// Arctic polar stereographic (uncomment dependencies in index.html)
+L.tileLayer(url, {
+  maxZoom,
+  minZoom,
+  continuousWorld: true,
+  attribution
+}).addTo(map);
+
+// Alternative map projection
+// Universal polar stereographic north (uncomment dependencies in index.html)
 //let url = '//geodata.npolar.no/arcgis/rest/services/Basisdata_Intern/NP_Arktis_WMTS_32661/MapServer';
 //let resolutions = [21674.7100160867, 10837.35500804335, 5418.677504021675, 2709.3387520108377, 1354.6693760054188, 677.3346880027094, 338.6673440013547, 169.33367200067735, 84.66683600033868, 42.33341800016934];
 //let transformation = new L.Transformation(1, 28567900, -1, 32567900);
@@ -13,27 +24,14 @@ let url = '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServe
 //let maxZoom = 17;
 //let continuousWorld = false;
 //let crs = new L.Proj.CRS('EPSG:32661','+proj=stere +lat_0=90 +lat_ts=90 +lon_0=0 +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {transformation, resolutions});
-
 // let map = L.map('map', { crs }).setView([76,9], 4);
 //L.esri.tiledMapLayer({
 //  url,
 //  maxZoom,
 //  minZoom,
 //  continuousWorld: true,
-//  attribution: '<a href="http://npolar.no">Norwegian Polar Institute</a> &mdash; <a href="https://doi.org/10.21334/npolar.2011.a2813eb6">Place names in Norwegian polar areas</a>'
+//  attribution
 //}).addTo(map);
-
-var map = L.map('map'/*, { crs: crs }*/).setView([76,9], 4);
-let minZoom = 3;
-let maxZoom = 17;
-
-L.tileLayer({
-  url,
-  maxZoom,
-  minZoom,
-  continuousWorld: true,
-  attribution: '<a href="http://npolar.no">Norwegian Polar Institute</a> &mdash; <a href="https://doi.org/10.21334/npolar.2011.a2813eb6">Place names in Norwegian polar areas</a>'
-}).addTo(map);
 
 var svalbard_box = [[74, 10], [81, 34]];
 L.rectangle(svalbard_box, { /*color: "#ff7800", weight: 1*/}).addTo(map);
@@ -72,7 +70,11 @@ function update() {
 map.on('moveend', update);
 
 function createClusterIcon(feature, latlng) {
-    if (!feature.properties.cluster) {
+  if (!feature.properties) {
+    feature.properties = {};
+  }
+
+    if (!feature.properties.cluster ) {
       let p = feature;
       let definition = (p.texts && p.texts.definition && p.texts.definition.en) ? p.texts.definition.en : '';
       let origin = '';

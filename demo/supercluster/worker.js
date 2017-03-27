@@ -1,9 +1,7 @@
 'use strict';
 
-importScripts('supercluster.min.js');
-
+importScripts('https://unpkg.com/supercluster@2.3.0/dist/supercluster.min.js');
 var now = Date.now();
-
 var index;
 
 // curl "http://api.npolar.no/placename/?q=&filter-status=official&format=geojson&fields=name.@value,area,type,geometry,terrain,id,texts&sort=-area&limit=all" > np.json
@@ -16,7 +14,6 @@ getJSON('np-placenames.json', function (geojson) {
         extent: 256,
         maxZoom: 17
     }).load(geojson.features);
-
     //console.log(index.getTile(0, 0, 0));
     postMessage({ready: true});
 });
