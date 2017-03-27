@@ -6,7 +6,8 @@ var now = Date.now();
 
 var index;
 
-getJSON('np.json', function (geojson) {
+// curl "http://api.npolar.no/placename/?q=&filter-status=official&format=geojson&fields=name.@value,area,type,geometry,terrain,id,texts&sort=-area&limit=all" > np.json
+getJSON('np-placenames.json', function (geojson) {
     console.log('loaded ' + geojson.features.length + ' points JSON in ' + ((Date.now() - now) / 1000) + 's');
 
     index = supercluster({
@@ -16,8 +17,7 @@ getJSON('np.json', function (geojson) {
         maxZoom: 17
     }).load(geojson.features);
 
-    console.log(index.getTile(0, 0, 0));
-
+    //console.log(index.getTile(0, 0, 0));
     postMessage({ready: true});
 });
 
