@@ -78,29 +78,34 @@ function update() {
 map.on('moveend', update);
 
 function createIcon(feature, latlng) {
+  var p = feature;
   if (!feature.properties) {
     feature.properties = {};
   }
+  var coords = JSON.stringify(feature.geometry.coordinates.map(c => { return c.toFixed(3); }));
 
   if (!feature.properties.cluster ) {
-    var p = feature;
+
     var definition = (p.texts && p.texts.definition && p.texts.definition.en) ? p.texts.definition.en : '';
     var origin = '';
-    var coords = JSON.stringify(p.geometry.coordinates);
+
     var popup = `<a href="https://data.npolar.no/placename/${p.id}"><b>${p.name['@value']}</b></a><br/>${ definition}<br/>${ origin }<br/>${coords}`;
-    var circle =  L.circle(latlng, { radius: 1000 }).bindPopup(popup);
+    var circle =  L.circle(latlng, { radius: 200 }).bindPopup(popup);
     // circle.bindTooltip(`${p.name['@value']}<br/>${coords}`);
     return circle;
   } else {
     var count = feature.properties.point_count;
-    var size = count < 50 ? 'small' : count < 500 ? 'medium' : 'large';
+    var size = count < 5 ? 'small' : count < 50 ? 'medium' : 'large';
     var icon = L.divIcon({
-      html: '<div><span>' + feature.properties.point_count_abbreviated + '</span></div>',
+      html: `<div title="${coords}"><span>` + feature.properties.point_count_abbreviated + '</span></div>',
       className: 'marker-cluster marker-cluster-' + size,
       iconSize: L.point(40, 40)
     });
-    var m = L.marker(latlng, {icon: icon});
-    //m.bindPopup(`<b>${JSON.stringify(feature.geometry.coordinates)}</b>`);
-    return m;
+    var cluster_marker = L.marker(latlng, {icon: icon});
+    cluster_marker.on('click', function() {
+      map.setView(latlng, map.getZoom() + 1);
+    });
+    //cluster_marker.bindPopup(`<b>${JSON.stringify( map.getZoom() + 3 )}</b>`);
+    return cluster_marker;
   }
 }

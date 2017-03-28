@@ -11,14 +11,16 @@ getJSON(uri, function (geojson) {
 
   index = supercluster({
       log: true,
-      radius: 40,
+      radius: 80,
       extent: 256,
+      minZoom: 3,
       maxZoom: 13
   }).load(geojson.features);
-  console.log(index.getTile(0, 0, 0));
+  //console.log(index.getTile(0, 0, 0));
   postMessage({ready: true});
 });
 
+// self -> DedicatedWorkerGlobalScope
 self.onmessage = function (e) {
   if (e.data) {
     postMessage(index.getClusters(e.data.bbox, e.data.zoom));
