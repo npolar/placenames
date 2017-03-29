@@ -82,7 +82,7 @@ function createIcon(feature, latlng) {
   if (!feature.properties) {
     feature.properties = {};
   }
-  var coords = JSON.stringify(feature.geometry.coordinates.map(c => { return c.toFixed(3); }));
+  var coords = JSON.stringify(feature.geometry.coordinates.map(c => { return parseFloat(c.toFixed(3)); }));
 
   if (!feature.properties.cluster ) {
 
