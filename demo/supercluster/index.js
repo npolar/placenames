@@ -133,19 +133,21 @@ function clusterColorLegendFactory(controlConfig={position: 'bottomright'}) {
 	legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend');
-		var grades = [1, 5, 50];
-    var sizes = ['small', 'medium', 'large']
+		var grades = [1, 2, 5, 50];
+    var sizes = ['one', 'small', 'medium', 'large'];
+    var legends = ['1', '2&ndash;4', '5&ndash;49', '50+']
 		var labels = [];
 		var from, to, klass;
 
 		for (var i = 0; i < grades.length; i++) {
 			from = grades[i];
-			to = grades[i + 1];
+			if (i===0) {
+        to = 1;
+      } else {
+        to = grades[i + 1];
+      }
       klass = 'marker-cluster marker-cluster-'+sizes[i];
-
-			labels.push(
-				'<i class="'+ klass +'"></i> ' +
-				from + (to ? '&ndash;' + to : '+'));
+			labels.push('<i class="'+ klass +'"></i>'+legends[i]);
 		}
 
 		div.innerHTML = labels.join('<br>');
