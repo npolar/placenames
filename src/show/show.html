@@ -80,6 +80,7 @@
 
         <section ng-if="p.relations.name_committee_case">
           <p ng-repeat="case in p.relations.name_committee_case"><b>Sak</b> {{ case.label }}
+          <!-- [<a ng-href="?filter-relations.name_committee_case.@id={{ case['@id'] }}&q=">affected names</a>]-->
         </section>
 
         <b>Authority</b> <span>{{ p.relations.authority['@id'] | i18n }}</span>

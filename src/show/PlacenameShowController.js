@@ -32,7 +32,7 @@ function PlacenameShowController($scope, $controller, $location, $routeParams, $
   self.loadRelations = (p) => {
     self.replaces = [];
     $scope.p = p;
-
+    
     // breaks back button @todo MERGE with current query...
     // $location.path(p.id).search({name: p.name['@value'], area: p.area });
 
