@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Supercluster npolar placenames</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Supercluster npolar placenames</title>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
-        <!--<script src="https://unpkg.com/supercluster@2.3.0/dist/supercluster.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0/esri-leaflet.js"></script>
-        <script src="https://rawgit.com/kartena/Proj4Leaflet/master/lib/proj4-compressed.js"></script>
-        <script src="https://rawgit.com/kartena/Proj4Leaflet/master/src/proj4leaflet.js"></script>-->
-        <link rel="stylesheet" href="cluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/3.18.0/build/yui/yui-min.js" charset="utf-8"></script>
 
-        <style>
-            html, body, #map {
-                height: 100%;
-                margin: 0;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="map"></div>
-        <script src="index.js"></script>
-    </body>
+    <link rel="stylesheet" href="cluster.css" />
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script type="text/javascript" src="https://unpkg.com/supercluster@2.3.0/dist/supercluster.min.js"></script>
+    <script type="text/javascript" src="./yui-supercluster-autocomplete.js" charset="utf-8"></script>
+    <script src="index.js"></script>
+  </body>
 </html>

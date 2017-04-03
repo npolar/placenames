@@ -14,7 +14,7 @@ getJSON(uri, function (geojson) {
       radius: 80,
       extent: 256,
       minZoom: 3,
-      maxZoom: 13
+      maxZoom: 10
   }).load(geojson.features);
   //console.log(index.getTile(0, 0, 0));
   postMessage({ready: true});

@@ -5,18 +5,28 @@ var attribution = '<a href="http://npolar.no">Norwegian Polar Institute</a> &mda
 
 var url = '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var map = L.map('map').setView([76,9], 4);
+map.zoomControl.remove();
+
+L.control.zoom({
+  position:'topright'
+}).addTo(map);
+
 var minZoom = 3;
 var maxZoom = 13;
 
 L.tileLayer(url, {
-  maxZoom,
-  minZoom,
+  maxZoom: maxZoom,
+  minZoom: minZoom,
   continuousWorld: true,
-  attribution
+  attribution: attribution
 }).addTo(map);
 
 // Alternative map projection
-// Universal polar stereographic north (uncomment dependencies in index.html)
+// Universal polar stereographic north
+// To use, add these dependencies in index.html
+//<script src="https://cdn.jsdelivr.net/leaflet.esri/2.0/esri-leaflet.js"></script>
+//<script src="https://rawgit.com/kartena/Proj4Leaflet/master/lib/proj4-compressed.js"></script>
+//<script src="https://rawgit.com/kartena/Proj4Leaflet/master/src/proj4leaflet.js"></script>
 //var url = '//geodata.npolar.no/arcgis/rest/services/Basisdata_Intern/NP_Arktis_WMTS_32661/MapServer';
 //var resolutions = [21674.7100160867, 10837.35500804335, 5418.677504021675, 2709.3387520108377, 1354.6693760054188, 677.3346880027094, 338.6673440013547, 169.33367200067735, 84.66683600033868, 42.33341800016934];
 //var transformation = new L.Transformation(1, 28567900, -1, 32567900);
@@ -39,14 +49,18 @@ svalbard.bindTooltip("Svalbard, NO", { offset: [-150,0]});
 svalbard.addTo(map);
 
 // Jan Mayen 70°49’ og 71°10’ nordlig bredde, og mellom 7°55’ og 9°5’ vestlig lengde.
-var jan_mayen_box = [[70,-10],[72,-7]];
+var jan_mayen_box = [[70.817,-9.083],[71.167,-7.917]];
 var jan_mayen = L.rectangle(jan_mayen_box, { /*color: "#ff7800", weight: 1*/});
 jan_mayen.bindTooltip("Jan Mayen, NO", { offset: [20,0]});
 jan_mayen.addTo(map);
 
+var markersById = {};
 var markers = L.geoJson(null, {
   pointToLayer: createIcon
 }).addTo(map);
+
+searchControlFactory().addTo(map);
+clusterColorLegendFactory().addTo(map);
 
 var worker = new Worker('worker.js');
 var ready = false;
@@ -70,7 +84,7 @@ function update() {
   var bounds = map.getBounds();
   var bbox = [bounds.getWest()-10, bounds.getSouth()-10, bounds.getEast()+10, 90];
   worker.postMessage({
-    bbox,
+    bbox: bbox,
     zoom: map.getZoom()
   });
 }
@@ -89,11 +103,12 @@ function createIcon(feature, latlng) {
     var definition = (p.texts && p.texts.definition && p.texts.definition.en) ? p.texts.definition.en : '';
     var origin = '';
 
-    var popup = `<a href="https://data.npolar.no/placename/${p.id}"><b>${p.name['@value']}</b></a><br/>${ definition}<br/>${ origin }<br/>${coords}`;
+    var popup = `<div id="${p.id}"><a href="/placename/${p.id}"><b>${p.name['@value']}</b></a><br/>${ definition}<br/>${ origin }<br/>${coords}</div>`;
     var circle =  L.circle(latlng, { radius: 200 }).bindPopup(popup);
     // circle.bindTooltip(`${p.name['@value']}<br/>${coords}`);
     return circle;
   } else {
+
     var count = feature.properties.point_count;
     var size = count < 5 ? 'small' : count < 50 ? 'medium' : 'large';
     var icon = L.divIcon({
@@ -103,9 +118,60 @@ function createIcon(feature, latlng) {
     });
     var cluster_marker = L.marker(latlng, {icon: icon});
     cluster_marker.on('click', function() {
-      map.setView(latlng, map.getZoom() + 1);
+      map.setView(latlng, map.getZoom() + 2);
     });
     //cluster_marker.bindPopup(`<b>${JSON.stringify( map.getZoom() + 3 )}</b>`);
+    markersById[p.id] = cluster_marker;
     return cluster_marker;
   }
 }
+
+function clusterColorLegendFactory(controlConfig={position: 'bottomright'}) {
+
+	var legend = L.control(controlConfig);
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		var grades = [1, 5, 50];
+    var sizes = ['small', 'medium', 'large']
+		var labels = [];
+		var from, to, klass;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+      klass = 'marker-cluster marker-cluster-'+sizes[i];
+
+			labels.push(
+				'<i class="'+ klass +'"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+	return legend;
+}
+
+function searchControlFactory(controlConfig={position: 'topleft'}) {
+
+	var legend = L.control(controlConfig);
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		var labels = ['<input id="supercluster-placename-search" class="on-map" type="text" placeholder="Placenames search">'];
+		div.innerHTML = labels.join('<br />');
+		return div;
+	};
+	return legend;
+}
+
+
+//<input id="place-input" class="on-map" type="text" placeholder="Enter a place to go..."
+// [(ngModel)]="address" (keyup.enter)="goto()">
+//
+// <button id="goto" class="btn btn-primary on-map" href="#" title="Goto Place" (click)="goto()">
+//     <i class="fa fa-arrow-right fa">
+// </i></button>
