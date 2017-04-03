@@ -1,5 +1,9 @@
 <span><md-icon>subdirectory_arrow_left</md-icon><a href=".">Placename search</a></span>
 
+<section class="app-section" layout="column" ng-controller="PlacenameMapController as ctrl">
+  <div id="npolar-esri-leaflet-map" style="height:400px;" class="leaflet-map"></div>
+</section>
+
 <article ng-controller="PlacenameShowController as ctrl" ng-show="p">
 
   <npdc:edit-button class="np-primary-control"></npdc:edit-button>
@@ -10,7 +14,7 @@
        <header>
          <h1 class="md-display-2">{{ p.name["@value"]}}</h1>
          <p ng-if="p.relations.replaced_by">
-           {{ p.status }} <span> {{ 'name'|t }} for: <span ng-repeat="r in p.relations.replaced_by"><a ng-href="{{ uuid(r['@id']) }}">{{ r.name }}</a> </span>
+           {{ p.status }} <span> {{ 'name'|t }} for: <span ng-repeat="r in p.relations.replaced_by"><a ng-href="{{ ctrl.uuid(r['@id']) }}">{{ r.name }}</a> </span>
          </p>
        </header>
 
@@ -29,8 +33,8 @@
           <md-icon>text_fields</md-icon>
         </md-card-avatar>
         <md-card-header-text>
-          <span class="md-headline">Texts</span>
-          <span class="md-subhead">Definition and origin</span>
+          <span class="md-headline">Definition and origin</span>
+          <!--<span class="md-subhead">Definition and origin</span>-->
         </md-card-header-text>
       </md-card-header>
       <md-card-content>
