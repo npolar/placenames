@@ -16,6 +16,7 @@ function PlacenameEditController($scope, $controller, $location, $routeParams, $
     return { type: "Feature", area: "Svalbard", country:
       "NO", country_of_origin: "NO", latitude: 0, longitude: 0,
       name: { '@language': 'nn' },
+      terrain: { en: 'named-place', nn: 'stadnamn'},
       relations: { authority: { '@id': 'npolar.no' } }
     };
   };
