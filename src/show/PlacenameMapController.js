@@ -45,13 +45,16 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
 
   self.popup = (p, current=$routeParams.id) => {
     let name = (p.id !== current) ? `<a href="${p.id}">${p.name['@value']}</a>` : p.name['@value'] ;
+    if (!p.texts) {
+      p.texts = {};
+    }
     let def = $filter('i18n')(p.texts.definition) || '';
     let origin = $filter('i18n')(p.texts.origin) || '';
     let orig = origin.substring(0,300);
     if (orig !== origin) {
       orig += ' […]';
     }
-    let coords = JSON.stringify(self.getPoint(p, true));
+    let coords = JSON.stringify(self.getPoint(p, true).reverse());
     let popup = `<b>${name}</b><br/>${ p.area}, ${p.country}<br/>${ coords }<br/><br/>${ def }<br/><br/>${ orig }`;
     return popup;
   };
@@ -60,7 +63,11 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
     let [w,s,e,n] = map.getBounds().toBBoxString().split(',');
     console.debug([w,s,e,n]);
     let names_in_bbox_query = { q:'', 'filter-longitude': `${w}..${e}`, 'filter-latitude': `${s}..${n}`,
-      limit: 'all', 'not-id': $routeParams.id, format: 'geojson', fields: 'id,type,area,country,geometry,latitude,longitude,name.@value,texts'
+      limit: 'all',
+      'filter-status': 'official',
+      'not-id': $routeParams.id,
+      format: 'geojson',
+      fields: 'id,type,area,country,geometry,latitude,longitude,name.@value,texts'
     };
     PlacenameResource.feed(names_in_bbox_query).$promise.then(r => {
       console.log('bbox names', r.features.length);
@@ -72,12 +79,13 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
   };
 
   self.renderMap = (p={ area: 'Svalbard'}, L=NpolarEsriLeaflet.L()) => {
+    let config =  NpolarEsriLeaflet.configFor(p.area, { element: 'np-placenames-show-map'});
     if (!self.map) {
       self.map = NpolarEsriLeaflet.mapFactory(self.mapUri(p));
     }
 
     let map = self.map;
-    let config =  NpolarEsriLeaflet.configFor(p.area, { element: 'np-placenames-show-map'});
+
 
     let attribution = `<a href="http://npolar.no">Norsk Polarinstitutt</a>`;
     map.attributionControl.addAttribution(attribution);
