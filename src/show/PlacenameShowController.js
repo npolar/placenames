@@ -61,13 +61,13 @@ function PlacenameShowController($scope, $controller, $location, $routeParams, $
     } else {
 
       if ($location.search().ident && (/\d+/).test($location.search().ident)) {
-        ident = $location.search().ident;
+        ident = parseInt($location.search().ident);
       } else if (!UUID_REGEX.test($routeParams.id)) {
         name = $routeParams.id;
       }
 
       if (name && !ident) {
-        console.debug('name');
+        console.debug('name', name);
         $scope.resource.array({ 'filter-properties.label': name, fields: 'id,area,name.@value', limit: 10, 'filter-status': 'official' }).$promise.then((r) => {
 
         if (r && r.length > 1) {
@@ -84,12 +84,12 @@ function PlacenameShowController($scope, $controller, $location, $routeParams, $
         });
 
       } else if (ident && !name) {
+        console.debug('ident', ident);
+        $scope.resource.array({ 'filter-ident': ident, fields: 'id,ident,area,name.@value', limit: 10, 'filter-status': 'official' }).$promise.then((r) => {
 
-        console.log('ident', ident);
-        $scope.resource.array({ 'filter-ident': ident, fields: 'id,area,name.@value', limit: 10, 'filter-status': 'official' }).$promise.then((r) => {
           if (r && r.length === 1 && r[0].ident === ident) {
             id = r[0].id;
-            name = r[0].name['@value']; // if ident === r[0].ident!
+            name = r[0].name['@value'];
             $location.path(id).search({name, area: r[0].area, ident });
           } else {
             $scope.document = {};
