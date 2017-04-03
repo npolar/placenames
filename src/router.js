@@ -9,8 +9,8 @@ var router = function($routeProvider, $locationProvider) {
     controller: 'PlacenameEditController',
     templateUrl: 'edit/edit.html'
   }).when('/:id', {
-    templateUrl: 'show/show.html',
-    controller: 'PlacenameShowController'
+    templateUrl: 'show/show.html'//,
+    //controller: 'PlacenameShowController'
   }).when('/', {
     templateUrl: 'search/search.html',
     controller: 'PlacenameSearchController',
