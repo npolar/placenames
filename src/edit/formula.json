@@ -4,32 +4,45 @@
       "title": "Name",
       "fields": [
         "name",
-        "status",
+        "status"
+
+      ]
+    },
+    {
+      "title": "Location",
+      "fields": [
+        "area",
+        "country"
+      ]
+    },
+    {
+      "title": "Geometry",
+      "fields": [
         "latitude",
         "longitude",
         "altitude"
       ]
     },
-    {
-      "title": "Classification",
-      "fields": [
-        "area",
-        "country",
-        "country_of_origin",
-        "terrain_type",
-        "terrain"
-      ]
-    },
-    {
+        {
       "title": "Texts",
       "fields": [
         "texts"
       ]
     },
     {
+      "title": "Terrain",
+      "fields": [
+
+        "terrain_type",
+        "terrain"
+      ]
+    },
+
+    {
       "title": "Relations",
       "fields": [
-        { "id": "relations" }
+        { "id": "relations" },
+        "country_of_origin"
       ]
     },
     {
