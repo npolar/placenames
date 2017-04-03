@@ -51,7 +51,7 @@ function PlacenameSearchController($scope, $controller, $location, $filter,
   // When no query: show list of newest names (force official filter )
   if (!self.param().q || self.param().q === "") {
     // Only fires on first load
-    $location.search(Object.assign({}, self.param(), { 'filter-status': 'official', 'filter-area': 'Svalbard'}));
+    $location.search(Object.assign({}, self.param(), { 'filter-status': 'official' }));
     //self.searchLatest();
   } else {
     // User query (first load)
