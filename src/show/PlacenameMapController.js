@@ -19,6 +19,8 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
     let uri = '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
     if ('Svalbard' === p.area) {
       uri = '//geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Satellitt_Svalbard_WMTS_25833/MapServer';
+    } else if ('Dronning Maud Land' === p.area) {
+      uri = '//vilhelm.npolar.no/arcgis/rest/services/Basisdata_Intern/tmp_dmlgeologywork/MapServer';
     }
     return uri;
   };
@@ -72,7 +74,11 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
     PlacenameResource.feed(names_in_bbox_query).$promise.then(r => {
       console.log('bbox names', r.features.length);
       r.features.forEach(p => {
-        L.circle([p.latitude, p.longitude], { radius: 300, weight: 1 }).bindPopup(self.popup(p)).addTo(self.map);
+        let circle = L.circle([p.latitude, p.longitude], { radius: 300, weight: 1 });
+        let circlePopup = circle.bindPopup(self.popup(p));
+        circlePopup.on('click', () => circle.openPopup());
+        //circlePopup.on('mouseout', () => circle.closePopup());
+        circle.addTo(self.map);
       });
 
     });
@@ -81,14 +87,15 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
   self.renderMap = (p={ area: 'Svalbard'}, L=NpolarEsriLeaflet.L()) => {
     let config =  NpolarEsriLeaflet.configFor(p.area, { element: 'np-placenames-show-map'});
     if (!self.map) {
-      self.map = NpolarEsriLeaflet.mapFactory(self.mapUri(p));
+      self.map = NpolarEsriLeaflet.mapFor(p.area); //actory(self.mapUri(p));
     }
 
     let map = self.map;
 
 
-    let attribution = `<a href="http://npolar.no">Norsk Polarinstitutt</a>`;
-    map.attributionControl.addAttribution(attribution);
+    //let attribution = `<a href="http://npolar.no">Norsk Polarinstitutt</a>`;
+    //map.attributionControl.addAttribution(attribution);
+    //map.attributionControl.addAttribution('NpolarEsriLeaflet.attributionFor '+ NpolarEsriLeaflet.uri({epsg: config.epsg}));
 
     map.on('zoomend', () => {
       self.drawNamesinBox();

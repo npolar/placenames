@@ -1,5 +1,22 @@
 'use strict';
 
+class PlacenamesShow {
+
+  constructor(context = { param: window.location.search, url: window.location }) {
+    this.param = new URLSearchParams(context.param);
+    this.url = new URL(context.url);
+    console.log(this.param.toString());
+    console.log(this.url);
+  }
+}
+
+let p = new PlacenamesShow();
+
+class PlacenamesSupercluster {
+  constructor() {
+  }
+}
+
 /*global L */
 var attribution = '<a href="http://npolar.no">Norwegian Polar Institute</a> &mdash; <a href="https://doi.org/10.21334/npolar.2011.a2813eb6">Place names in Norwegian polar areas</a> | <a href="https://github.com/mapbox/supercluster">supercluster</a>';
 
@@ -44,17 +61,16 @@ L.tileLayer(url, {
 //}).addTo(map);
 
 var svalbard_box = [[74, 10], [81, 34]];
-var svalbard = L.rectangle(svalbard_box, { /*color: "#ff7800", weight: 1*/});
+var svalbard = L.rectangle(svalbard_box, { weight: 1 });
 svalbard.bindTooltip("Svalbard, NO", { offset: [-150,0]});
 svalbard.addTo(map);
 
 // Jan Mayen 70°49’ og 71°10’ nordlig bredde, og mellom 7°55’ og 9°5’ vestlig lengde.
 var jan_mayen_box = [[70.817,-9.083],[71.167,-7.917]];
-var jan_mayen = L.rectangle(jan_mayen_box, { /*color: "#ff7800", weight: 1*/});
+var jan_mayen = L.rectangle(jan_mayen_box, { weight: 1});
 jan_mayen.bindTooltip("Jan Mayen, NO", { offset: [20,0]});
 jan_mayen.addTo(map);
 
-var markersById = {};
 var markers = L.geoJson(null, {
   pointToLayer: createIcon
 }).addTo(map);
@@ -67,13 +83,14 @@ var ready = false;
 
 //var bordersUri = '//geodata.npolar.no/arcgis/rest/services/Temadata/Samfunn_Svalbard/MapServer/5/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson';
 
-worker.onmessage = function (e) {
+// Handle message from worker
+worker.onmessage = function (e, m=markers) {
   if (e.data.ready) {
     ready = true;
     update();
   } else {
-    markers.clearLayers();
-    markers.addData(e.data);
+    m.clearLayers();
+    m.addData(e.data);
   }
 };
 
@@ -121,7 +138,6 @@ function createIcon(feature, latlng) {
       map.setView(latlng, map.getZoom() + 2);
     });
     //cluster_marker.bindPopup(`<b>${JSON.stringify( map.getZoom() + 3 )}</b>`);
-    markersById[p.id] = cluster_marker;
     return cluster_marker;
   }
 }

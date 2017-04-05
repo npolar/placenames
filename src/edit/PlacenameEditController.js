@@ -38,6 +38,31 @@ function PlacenameEditController($scope, $controller, $location, $routeParams, $
   let autocomplete = ['relations.authority.@id', 'relations.name_committee_case.@id', 'name.@language', 'terrain.en', 'terrain.nn'];
   formulaAutoCompleteService.autocompleteFacets(autocomplete, PlacenameResource, $scope.formula);
 
+  // Stupid hacks (3) to propagate positions to the coordinates array
+  $scope.$watch('formula.getModel().longitude', (lng, was) => {
+    let p = $scope.formula.getModel();
+    if (p && p.geometry && p.geometry.type && p.geometry.type==='Point' && p.geometry.coordinates && lng) {
+      p.geometry.coordinates[0] = parseFloat(lng);
+      $scope.formula.setModel(p);
+    }
+  });
+
+  $scope.$watch('formula.getModel().latitude', (lat, was) => {
+    let p = $scope.formula.getModel();
+    if (p && p.geometry && p.geometry.type && p.geometry.type==='Point' && p.geometry.coordinates && lat) {
+      p.geometry.coordinates[1] = parseFloat(lat);
+      $scope.formula.setModel(p);
+    }
+  });
+
+  $scope.$watch('formula.getModel().altitude', (alt, was) => {
+    let p = $scope.formula.getModel();
+    if (p && p.geometry && p.geometry.type && p.geometry.type==='Point' && p.geometry.coordinates && alt) {
+      p.geometry.coordinates[2] = parseFloat(alt);
+      $scope.formula.setModel(p);
+    }
+  });
+
   $scope.edit();
 }
 

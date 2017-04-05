@@ -1,4 +1,7 @@
+<span><md-icon>subdirectory_arrow_left</md-icon><a href="https://data.npolar.no">NPDC</a><md-tooltip>Norwegian Polar Data Centre [Home]</md-tooltip></span>
+<span><md-icon>subdirectory_arrow_left</md-icon><a href="/">Placenames map</a><md-tooltip>Placename clustering</md-tooltip></span>
 <span><md-icon>subdirectory_arrow_left</md-icon><a href=".">Placename search</a></span>
+
 
 <section class="app-section" layout="column" ng-controller="PlacenameMapController as ctrl">
   <div id="npolar-esri-leaflet-map" style="height:400px;" class="leaflet-map"></div>
@@ -18,9 +21,11 @@
          </p>
        </header>
 
+      <span>{{ p.area}}, {{ p.country }} [{{ p.longitude}}, {{p.latitude}}, {{p.altitude||0}}]</span>
        <span ng-if="!p.relations.replaced_by">
-         {{ p.status }} {{ 'name'|t }}
+         {{ p.status }} {{ 'geographic name'|t }} of {{ p.terrain | i18n }}
        </span>
+
 
      </md-card-content>
    </md-card>
@@ -38,7 +43,7 @@
         </md-card-header-text>
       </md-card-header>
       <md-card-content>
-        <p>{{ p.texts.definition | i18n }}
+        <p ng-if="p.texts.definition">{{ p.texts.definition | i18n }}
   <!--      <span ng-show="ctrl.translations('definition').length > 1">
           <md-button><md-icon>language</md-icon></md-button>
           {{ ctrl.translations('definition') | json }}
@@ -47,15 +52,18 @@
 
         </p>
 
-        <p>{{ p.texts.origin | i18n }}</p>
+        <p ng-if="p.texts.origin">{{ p.texts.origin | i18n }}</p>
 
-        <p>{{ p.properties.proposer }}</p>
+        <p ng-if="p.properties.scar_place_id">Proposer: {{ p.properties.proposer }}</p>
 
         <p>{{ p.texts.note | i18n }}</p>
 
+        <p ng-if="p.properties.scar_place_id">
+          SCAR id: <a ng-href="https://data.aad.gov.au/aadc/gaz/scar/search_names_action.cfm?feature_type_code=0&country_id=0&north=-60&south=-90.0&west=-180.0&east=180.0&search_near=&radius=0.5&gazetteers=SCAR&search_text={{p.properties.scar_place_id}}&q=">{{ p.properties.scar_place_id }}
+          </a>
+        </p>
 
-       <span>{{ p.terrain_type | i18n }}: {{ p.terrain | i18n }}</span>
-       <span>[ {{ p.longitude}}, {{p.latitude}}, {{p.altitude||0}} ]</span>
+       <!--<span>{{ p.terrain_type | i18n }}: {{ p.terrain | i18n }}</span>-->
 
       </md-card-content>
     </md-card>

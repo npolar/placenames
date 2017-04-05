@@ -20,9 +20,10 @@ getJSON(uri, function (geojson) {
   postMessage({ready: true});
 });
 
-// self -> DedicatedWorkerGlobalScope
+// Handle message containing new bbox/zoom from main thread
 self.onmessage = function (e) {
   if (e.data) {
+    // Send back clusters for bbox/zoom
     postMessage(index.getClusters(e.data.bbox, e.data.zoom));
   }
 };
