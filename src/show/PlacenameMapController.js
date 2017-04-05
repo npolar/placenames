@@ -85,18 +85,13 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
   };
 
   self.renderMap = (p={ area: 'Svalbard'}, L=NpolarEsriLeaflet.L()) => {
-    let config =  NpolarEsriLeaflet.configFor(p.area, { element: 'np-placenames-show-map'});
+    let config =  NpolarEsriLeaflet.configFor(p.area);
     if (!self.map) {
-      self.map = NpolarEsriLeaflet.mapFor(p.area); //actory(self.mapUri(p));
+      self.map = NpolarEsriLeaflet.mapFor(p.area); //NpolarEsriLeaflet.mapFactory(self.mapUri(p));
     }
 
     let map = self.map;
-
-
-    //let attribution = `<a href="http://npolar.no">Norsk Polarinstitutt</a>`;
-    //map.attributionControl.addAttribution(attribution);
-    //map.attributionControl.addAttribution('NpolarEsriLeaflet.attributionFor '+ NpolarEsriLeaflet.uri({epsg: config.epsg}));
-
+    
     map.on('zoomend', () => {
       self.drawNamesinBox();
     });
