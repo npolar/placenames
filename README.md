@@ -1,8 +1,6 @@
 # Placenames
-* Source code for https://data.npolar.no/placename
+* Source code for https://placenames.npolar.no
 * See also [Placename GeoJSON API](https://api.npolar.no/placename/?q=&format=geojson)
-
-Source code for: https://data.npolar.no/placename
 
 ### Demos
 
