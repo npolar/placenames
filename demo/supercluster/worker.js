@@ -3,8 +3,8 @@
 importScripts('https://unpkg.com/supercluster@2.3.0/dist/supercluster.min.js');
 var now = Date.now();
 var index;
-// var uri = '//api.npolar.no/placename/?q=&filter-status=official&format=geojson&fields=name.@value,type,geometry,id,texts&sort=-area&limit=all';
-var uri = 'np-placenames.json';
+var uri = '//api.npolar.no/placename/?q=&filter-status=official&format=geojson&fields=name.@value,type,geometry,id,texts&sort=-area&limit=all';
+//var uri = 'np-placenames.json';
 
 getJSON(uri, function (geojson) {
   console.log('loaded ' + geojson.features.length + ' points GeoJSON in ' + ((Date.now() - now) / 1000) + 's');

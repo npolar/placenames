@@ -18,7 +18,7 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
   autocomplete.ac.on('select', function (r) {
     var p = r.result.raw;
     var latlng = L.GeoJSON.coordsToLatLng(p.geometry.coordinates);
-    var circle = L.circle(latlng, { radius: 1000, color: 'red' });
+    var circle = L.circle(latlng, { radius: 600, color: 'red' });
 
     circle.bindPopup(namePopupHTML(p)).addTo(map).openPopup();
     map.setView(latlng, 9);

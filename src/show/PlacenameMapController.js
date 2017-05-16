@@ -15,16 +15,6 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
     $scope: $scope
   });
 
-  self.mapUri = (p) => {
-    let uri = '//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-    if ('Svalbard' === p.area) {
-      uri = '//geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Satellitt_Svalbard_WMTS_25833/MapServer';
-    } else if ('Dronning Maud Land' === p.area) {
-      uri = '//vilhelm.npolar.no/arcgis/rest/services/Basisdata_Intern/tmp_dmlgeologywork/MapServer';
-    }
-    return uri;
-  };
-
   self.getPoint = (p, includeAltitude=false) => {
     let point;
     if (p.latitude && p.longitude) {
@@ -74,7 +64,7 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
     PlacenameResource.feed(names_in_bbox_query).$promise.then(r => {
       console.log('bbox names', r.features.length);
       r.features.forEach(p => {
-        let circle = L.circle([p.latitude, p.longitude], { radius: 300, weight: 1 });
+        let circle = L.circle([p.latitude, p.longitude], { radius: 200, weight: 1 });
         let circlePopup = circle.bindPopup(self.popup(p));
         circlePopup.on('click', () => circle.openPopup());
         //circlePopup.on('mouseout', () => circle.closePopup());
@@ -86,12 +76,29 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
 
   self.renderMap = (p={ area: 'Svalbard'}, L=NpolarEsriLeaflet.L()) => {
     let config =  NpolarEsriLeaflet.configFor(p.area);
+    if (self.map) {
+
+      self.map.remove();
+
+      let id = NpolarEsriLeaflet.element;
+      let old = document.getElementById(id);
+      let parent = old.parentNode;
+      parent.removeChild(old);
+
+      let div = document.createElement("div");
+      div.setAttribute("id", id);
+      div.setAttribute("style", "height:400px;")
+
+      parent.appendChild(div);
+
+      self.map = null;
+    }
     if (!self.map) {
       self.map = NpolarEsriLeaflet.mapFor(p.area); //NpolarEsriLeaflet.mapFactory(self.mapUri(p));
     }
 
     let map = self.map;
-    
+
     map.on('zoomend', () => {
       self.drawNamesinBox();
     });
@@ -102,7 +109,7 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
       // ... but not if the position is [0,0]
       if (point && point[0] && point[1] && point[0].to_i !== 0 && point[1].to_i !== 0) {
         map.setView(point, config.zoom);
-        let circle = L.circle(point, { radius: 1000, color: 'red', weight: 1 });
+        let circle = L.circle(point, { radius: 500, color: 'red', weight: 1 });
         circle.bindPopup(self.popup(p)).addTo(map).openPopup();
       } else {
         // if [0,0] try to find position of newer name
@@ -114,7 +121,7 @@ function PlacenameMapController($scope, $controller, $location, $routeParams, $t
           PlacenameResource.get({id: replaced_by_id}).$promise.then(replaced_by => {
             point = self.getPoint(replaced_by);
             map.setView(point, config.zoom);
-            let circle = L.circle(point, { radius: 1000, color: 'red', weight: 1 });
+            let circle = L.circle(point, { radius: 500, color: 'red', weight: 1 });
             circle.bindPopup(`<b>${replaced_by.name['@value']}</b><br />${replaced_by.area}, ${replaced_by.country}`).addTo(map).openPopup();
           });
 
