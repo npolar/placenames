@@ -1,6 +1,6 @@
 {
   "name": "npdc-placename",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "NPDC placenames app",
   "main": "gulpfile.js",
   "scripts": {
