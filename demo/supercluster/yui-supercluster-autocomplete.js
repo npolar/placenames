@@ -4,7 +4,7 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
 
   // Npolar Placename GeoJSON API
   // Leave {query} and {callback}, they are replaced by YUI
-  var uri = '//api.npolar.no/placename/?q-name.@value={query}&callback={callback}&filter-status=official&not-terrain.nn=utmål|bygningar&format=geojson&fields=id,type,geometry,name,country,area,terrain,terrain_type,texts&limit=20';
+  var uri = '//api.npolar.no/placename/?q-name.@value={query}&callback={callback}&filter-status=official&format=geojson&fields=id,type,geometry,name,country,area,terrain,terrain_type,texts&limit=20';
   var autocomplete = Y.one('#supercluster-placename-search');
   autocomplete.plug(
     Y.Plugin.AutoComplete, {
