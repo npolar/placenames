@@ -1,4 +1,4 @@
-YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", function (Y) {
+  YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", function (Y) {
 
   Y.one('body').addClass('yui3-skin-sam');
 
@@ -6,8 +6,21 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", f
   // Leave {query} and {callback}, they are replaced by YUI
   var uri = '//api.npolar.no/placename/?q-name.@value={query}&callback={callback}&filter-status=official&format=geojson&fields=id,type,geometry,name,country,area,terrain,terrain_type,texts&limit=20';
   var autocomplete = Y.one('#supercluster-placename-search');
+
+  function resultFormatter(query, results) {
+    return Y.Array.map(results, function (result) {
+      var p = result.raw;
+      var coords = p.geometry.coordinates;
+      var latitude = parseInt(coords[1]||0);
+      var longitude = parseInt(coords[0]||0);
+      var name = p.name['@value'];
+      return '<div class=""><b>'+ name +'</b>, '+p.area +' ('+latitude + 'N '+ longitude +'E) '+p.terrain.en +'/'+ p.terrain_type + '</div>';
+    });
+  };
+
   autocomplete.plug(
     Y.Plugin.AutoComplete, {
+      resultFormatter: resultFormatter,
       resultHighlighter: 'phraseMatch',
       resultListLocator: 'features',
       resultTextLocator: 'name.@value',
