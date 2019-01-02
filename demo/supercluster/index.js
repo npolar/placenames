@@ -1,22 +1,5 @@
 'use strict';
 
-//class PlacenamesShow {
-//
-//  constructor(context = { param: window.location.search, url: window.location }) {
-//    this.param = new URLSearchParams(context.param);
-//    this.url = new URL(context.url);
-//    console.log(this.param.toString());
-//    console.log(this.url);
-//  }
-//}
-//
-//let p = new PlacenamesShow();
-//
-//class PlacenamesSupercluster {
-//  constructor() {
-//  }
-//}
-
 /*global L */
 var attribution = '<a href="http://npolar.no">Norwegian Polar Institute</a> &mdash; <a href="https://doi.org/10.21334/npolar.2011.a2813eb6">Place names in Norwegian polar areas</a> | <a href="https://github.com/mapbox/supercluster">supercluster</a>';
 
