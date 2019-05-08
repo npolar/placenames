@@ -162,17 +162,16 @@ function searchControlFactory(controlConfig={position: 'topleft'}) {
 	legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend');
-		var labels = ['<input id="supercluster-placename-search" class="on-map" type="text" placeholder="Placenames search">'];
-		div.innerHTML = labels.join('<br />');
+    var input = [`<h1>Placenames in Norwegian polar areas</h1>`,
+      `<input name="q" class="on-map" type="search" id="supercluster-placename-search" autofocus="autofocus" value="" placeholder="Search in over 10000 official polar placenames" size="50%" autocomplete="off" style="outline: none;"/>`,
+      `<p>
+      <a href="http://npolar.no">Norwegian Polar Institute</a> is the naming authority of geographic names in <a href="https://data.npolar.no/placename/08100323-43fd-5a63-bf80-2d151251937a">Svalbard</a>, <a href="https://data.npolar.no/placename/7e2f0e25-8004-57d7-9818-8b705df326dc">Jan Mayen</a>, and <a href="https://data.npolar.no/placename/ca4ed267-9d11-5157-bb0d-71e9469c6660">Dronning Maud Land</a>.
+      Click on the cluster circles to zoom in, or try the <a href="https://data.npolar.no/placename">text search</a>.
+
+      </p>`];
+    div.innerHTML = input.join('');
+    L.DomEvent.disableClickPropagation(div); // Fix for broken search input in iOS
 		return div;
 	};
 	return legend;
 }
-
-
-//<input id="place-input" class="on-map" type="text" placeholder="Enter a place to go..."
-// [(ngModel)]="address" (keyup.enter)="goto()">
-//
-// <button id="goto" class="btn btn-primary on-map" href="#" title="Goto Place" (click)="goto()">
-//     <i class="fa fa-arrow-right fa">
-// </i></button>
