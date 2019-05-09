@@ -1,6 +1,6 @@
 'use strict';
 
-importScripts('https://unpkg.com/supercluster@5');
+importScripts('https://unpkg.com/supercluster@6');
 
 const { warn} = console;
 
@@ -28,11 +28,9 @@ async function fetchGeoJSON() {
 
 function fixGeoJSON(fc) {
   const noGeo = fc.features.filter(f => !f.geometry);
-  if (noGeo) {
+  if (noGeo && noGeo.length) {
     warn('Features without geometry', JSON.stringify(noGeo.map(f => [f.id,f['name']['@value']])));
   }
-
-
   let features = fc.features.filter(f => (f.geometry && f.geometry.coordinates && f.geometry.coordinates.length));
   if (noGeo && noGeo.length) {
     features=features.concat(noGeo.map(f => {

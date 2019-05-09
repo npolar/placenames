@@ -136,7 +136,6 @@ function searchControlFactory(controlConfig={position: 'topleft'}) {
 	let legend = L.control(controlConfig);
 
 	legend.onAdd = function (map) {
-
 		let div = L.DomUtil.create('div', 'info legend');
     const form = `<h1>Placenames in Norwegian polar areas</h1>
       <form action="">
@@ -154,6 +153,7 @@ function searchControlFactory(controlConfig={position: 'topleft'}) {
       </form>`;
     div.innerHTML = form;
     L.DomEvent.disableClickPropagation(div); // Fix for broken search input in iOS
+
 		return div;
 	};
 	return legend;
