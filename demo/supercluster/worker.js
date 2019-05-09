@@ -2,6 +2,8 @@
 
 importScripts('https://unpkg.com/supercluster@6');
 
+const { warn} = console;
+
 const getSuperclusterIndex = () => self.idx;
 
 const getClusters = (bbox,zoom) => getSuperclusterIndex().getClusters(bbox, zoom);
@@ -27,7 +29,7 @@ async function fetchGeoJSON() {
 function fixGeoJSON(fc) {
   const noGeo = fc.features.filter(f => !f.geometry);
   if (noGeo && noGeo.length) {
-    console.warn('No geometry', JSON.stringify(noGeo.map(f => [f.id,f['name']['@value']])));
+    warn('Features without geometry', JSON.stringify(noGeo.map(f => [f.id,f['name']['@value']])));
   }
   let features = fc.features.filter(f => (f.geometry && f.geometry.coordinates && f.geometry.coordinates.length));
   if (noGeo && noGeo.length) {
