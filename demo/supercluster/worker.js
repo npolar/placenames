@@ -1,8 +1,10 @@
 'use strict';
 
 importScripts('https://unpkg.com/supercluster@6');
-
-const { warn} = console;
+importScripts("https://unpkg.com/idb-keyval@3/dist/idb-keyval-iife.js");
+const { warn } = console;
+const { stringify, parse } = JSON;
+const { del, get, keys, set} = idbKeyval;
 
 const getSuperclusterIndex = () => self.idx;
 
@@ -19,10 +21,41 @@ function createSuperclusterIndex(geojson, options={
   self.idx = supercluster.load(geojson.features);
 }
 
-async function fetchGeoJSON() {
-  const fields= "&fields=name.@value,type,geometry,id,texts,longitude,latitude";
-  const uri = `https://api.npolar.no/placename/?q=&filter-status=official&format=geojson${fields}&limit=all&filter-latitude=-90..90&&filter-longitude=-180..180`;
-  const timer = `Placenames API: ${uri}`;
+async function getFeatureCollection(param={status: "official", base: "https://api.npolar.no/placename"}) {
+  let fc;
+  const key = stringify(param);
+  const storeKeys = await keys();
+  if (!storeKeys.includes(key)) {
+    fc = await fetchGeoJSON(param);
+    set(key, fc);
+  } else {
+    const cached = await get(key);
+    if (!cached || !cached.updated || !cached.features || cached.features.length < 10000) {
+      await del(key);
+      return getFeatureCollection();
+    }
+    param.updated = cached.updated.replace(/z/i, ".999"); // API v1 crashes on time-filters with Z;
+    const fresh = await fetchGeoJSON(param);
+    if (fresh && fresh.features && fresh.features.length && fresh.features.length > 0) {
+      fc=cached;
+      fc.updated = fresh.updated;
+      fc.features = [...cached.features, ...fresh.features];
+      warn("Fresh", fresh);
+      set(key, fc);
+    } else {
+      fc=cached;
+    }
+  }
+  return fc;
+}
+
+async function fetchGeoJSON({status, base, updated}) {
+  const fields= "&fields=name.@value,type,geometry,id,texts,longitude,latitude,updated";
+  let uri = `${base}/?q=&filter-status=${status}&format=geojson${fields}&limit=all`;
+  uri += `&filter-latitude=-90..90&&filter-longitude=-180..180`;
+  if (updated) {
+    uri += `&filter-updated=${updated}..`;
+  }
   return fetch(uri).then(r => r.json()).then(fc => fixGeoJSON(fc));
 }
 
@@ -43,6 +76,8 @@ function fixGeoJSON(fc) {
     f.geometry.coordinates = coordinates;
     return f;
   });
+  const updated = [...new Set(fc.features.map(f => f.updated))].sort().pop();
+  fc.updated = updated;
   return fc;
 }
 
@@ -56,7 +91,7 @@ self.onmessage = function (e) {
 };
 
 (async () => {
-  const fc = await fetchGeoJSON();
+  const fc = await getFeatureCollection();
   createSuperclusterIndex(fc);
   postMessage({ready: true});
 })();
