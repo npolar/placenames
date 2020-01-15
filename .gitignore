@@ -3,4 +3,7 @@ coverage
 dist
 node_modules
 _*
-bulk
+bin/bulk
+*.traineddata
+yarn.lock
+package-lock.json
