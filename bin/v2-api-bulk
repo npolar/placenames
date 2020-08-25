@@ -1,0 +1,5 @@
+#!/bin/bash
+endpoint=$1
+verb=$2
+ndjson-map '{ id: d.id, body: d }' \
+| curl "https://v2-api.npolar.no/${endpoint}/_bulk" "-nX${verb}" -d@- -H "content-type: application/x-ndjson"
