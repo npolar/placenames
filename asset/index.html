@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      lang="en"
+      name="description"
+      content="Place names in Norwegian polar areas https://placenames.npolar.no is the system of record for Norway's polar place names.
+
+     The searchable database contains more than 20000 spellings of geographic features in Svalbard, Jan Mayen, Dronning Maud Land, Bouvetøya, and Peter I Øy.
+
+     The names are published as open data on the web in the widely used GeoJSON format. Free use is allowed and encouraged, just cite:
+     Place names in Norwegian polar areas [Data set]. Norwegian Polar Institute.
+     https://doi.org/10.21334/npolar.2011.a2813eb6
+    "
+    />
+    <meta
+      lang="no"
+      name="description"
+      content="Stadnamn i norske polarområde https://placenames.npolar.no er det offisielle registreringssystemet for polare stadnamn.
+
+     Den søkbare databasen inneheld over 20000 namn frå Svalbard, Jan Mayen, Dronning Maud Land, Bouvetøya, og Peter I Øy.
+
+     Stadnamna publiserast på nettet som opne data i det mykje brukte GeoJSON-formatet og kan fritt brukast med sitering:
+     Stadnamn i norske polarområde [datasett]. Norsk Polarinstitutt. https://doi.org/10.21334/npolar.2011.a2813eb6"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="/manifest/manifest-en.json" />
+    <link rel="stylesheet" href="/@npolar/mdc/font/material-icons.css" />
+    <link rel="stylesheet" href="/@npolar/mdc/css/style/shared.css" />
+
+    <title>Place names in Norwegian polar areas</title>
+    <script type="application/ld+json"></script>
+    <style>
+      :root {
+        --mdc-typography-font-family: "Inter var", sans-serif;
+      }
+    </style>
+
+    <style>
+      body {
+        font-family: "Inter var", sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        scroll-behavior: smooth;
+        text-rendering: optimizeSpeed;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+        padding: 0;
+        /* margin-block-start: 0.33em;
+        margin-block-end: 0.1em; */
+        display: flex;
+        align-items: center;
+      }
+
+      dl,
+      dt,
+      ul,
+      ol,
+      li,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      *:not(:defined) {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <placenames-shell class="mdc-typography--body1"></placenames-shell>
+    <script type="module" src="/placenames-app.js"></script>
+    <script type="nomodule" src="/@npolar/mdc/nomodule.js"></script>
+
+    <noscript>
+      <header>
+        <h1 lang="nn">Stadnamn-appen treng JavaScript</h1>
+        <h1 lang="en">The Place names app needs JavaScript</h1>
+      </header>
+    </noscript>
+  </body>
+</html>

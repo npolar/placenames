@@ -1,0 +1,16 @@
+#!/bin/sh
+# @npolar/mdc assets:
+rm -rf dist/*
+mkdir -p dist/@npolar/mdc/css/style/
+
+cp -r asset/* dist/
+
+cp -r node_modules/@npolar/mdc/asset/* dist/@npolar/mdc
+cp -r node_modules/@npolar/mdc/asset/favicon.ico dist/
+
+cp node_modules/@npolar/mdc/dist/@npolar/mdc/css/style/*.css dist/@npolar/mdc/css/style/
+
+# leaflet
+mkdir -p dist/leaflet
+cp node_modules/leaflet/dist/leaflet.css dist/leaflet/
+

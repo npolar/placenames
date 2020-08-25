@@ -1,0 +1,20 @@
+{
+  "name": "Place names in Norwegian polar areas",
+  "short_name": "Polar place names",
+  "icons": [
+    {
+      "src": "/@npolar/mdc/npolar/icon/npolar-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/@npolar/mdc/npolar/icon/npolar-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "rgb(22, 70, 104)",
+  "theme_color": "#000"
+}

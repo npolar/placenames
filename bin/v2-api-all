@@ -1,0 +1,4 @@
+#!/bin/bash
+endpoint=$1
+search="?type=feed&page=.."
+curl https://v2-api.npolar.no/${endpoint}/_search${search}
