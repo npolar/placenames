@@ -1,8 +1,7 @@
 # norwegian polar place names
 
-Website built with web components.
-
-Production: https://stadnamn.npolar.no
+ES2019 source for https://stadnamn.npolar.no
+– built with web components
 
 ## Development
 
@@ -15,3 +14,7 @@ yarn dev
 ```
 
 Should start a live-server on http://localhost:1596
+
+## Screenshot
+
+![Eventyrstranda](asset/eventyrstranda_svalbard.png?raw=true "Eventyrstranda")
