@@ -1,6 +1,6 @@
 # norwegian polar place names
 
-ES2019 source for [Place names](https://stadnamn.npolar.no) (v3)
+ES2019 source for [Place names](https://stadnamn.npolar.no) (v4)
 – built with web components
 ![Eventyrstranda](asset/eventyrstranda_svalbard.png?raw=true "Eventyrstranda")
 
