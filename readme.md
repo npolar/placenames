@@ -2,6 +2,7 @@
 
 ES2019 source for https://stadnamn.npolar.no
 – built with web components
+![Eventyrstranda](asset/eventyrstranda_svalbard.png?raw=true "Eventyrstranda")
 
 ## Development
 
@@ -14,7 +15,3 @@ yarn dev
 ```
 
 Should start a live-server on http://localhost:1596
-
-## Screenshot
-
-![Eventyrstranda](asset/eventyrstranda_svalbard.png?raw=true "Eventyrstranda")
