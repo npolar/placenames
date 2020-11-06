@@ -26,5 +26,6 @@ npm i -g ndjson-cli
 branch="update-official-`date -uI`"
 git checkout -b $branch
 ./bin/placenames-freeze-official
+git commit -m "Updated frozen names" src/placename/by-area/official/*.js
 git push --set-upstream origin $branch
 ```
