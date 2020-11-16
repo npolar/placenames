@@ -2,7 +2,7 @@
 prefix="export default JSON.parse(\`"
 dest="src/placename/by-area/official"
 
-echo "export const officialNameMapsFrozenDatetime = \"`date -uI`T00:00:00Z\";" > $dest/dt.txt
+echo "export const officialNameMapsFrozenDatetime = \"`date -uI`T00:00:00Z\";" > $dest/frozen-datetime.js
 
 echo "$prefix `./bin/placenames-fetch-official-by-area Svalbard`\`);" > $dest/sv.js
 echo "$prefix `./bin/placenames-fetch-official-by-area Jan+Mayen`\`);" > $dest/jm.js
