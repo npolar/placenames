@@ -11,3 +11,4 @@ See also: https://github.com/npolar/placenames/issues
 - Imperfect sync of name-cases and case-placenames
 - robots.txt allows too much (search engine results)
 - no sitemap.xml
+- possible to create blank names and duplicate names

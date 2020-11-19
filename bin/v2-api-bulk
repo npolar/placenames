@@ -1,4 +1,7 @@
 #!/bin/bash
+# @todo
+# use data not search
+# curl -s "https://v2-api.npolar.no/placename/feature/?type=feed&includeData=true&type=feed&page=0..10"
 endpoint=$1
 verb=$2
 ndjson-map '{ id: d.id, body: d }' \

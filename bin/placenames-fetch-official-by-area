@@ -1,4 +1,6 @@
-LANG="nb_NO.utf8"
+#!/bin/sh
+# Use: ./bin/placenames-fetch-official-by-area Svalbard
+export LC_ALL="nn_NO.UTF-8"
 curl -s "https://v2-api.npolar.no/placename/feature/_search?and=area:$1&and=status:official&show=name&sort=name:asc&page=..&type=feed" \
   | ndjson-map d.name \
   | sort | uniq \
