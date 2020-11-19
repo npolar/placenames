@@ -5,6 +5,8 @@ mkdir -p dist/@npolar/mdc/css/style/
 
 cp -r asset/* dist/
 
+cd node_modules/@npolar/mdc && yarn && yarn prepare && cd -
+
 cp -r node_modules/@npolar/mdc/asset/* dist/@npolar/mdc
 cp -r node_modules/@npolar/mdc/asset/favicon.ico dist/
 
@@ -13,4 +15,3 @@ cp node_modules/@npolar/mdc/dist/@npolar/mdc/css/style/*.css dist/@npolar/mdc/cs
 # leaflet
 mkdir -p dist/leaflet
 cp node_modules/leaflet/dist/leaflet.css dist/leaflet/
-
