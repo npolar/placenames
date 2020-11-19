@@ -110,7 +110,7 @@ export class SignIn extends LitElement {
       </h1>
 
       <form @submit="${this}">
-        <mwc-textfield
+        <input-text
           outlined
           path="/email"
           type="text"
@@ -118,9 +118,9 @@ export class SignIn extends LitElement {
           value="${email && /@/.test(email) ? email : ""}"
           autocomplete="username"
         >
-        </mwc-textfield>
+        </input-text>
 
-        <mwc-textfield
+        <input-password
           outlined
           path="/password"
           type="password"
@@ -128,14 +128,15 @@ export class SignIn extends LitElement {
           placeholder="${t("sign-in.password")} [norwegian polar data centre]"
           autocomplete="current-password"
         >
-        </mwc-textfield>
+        </input-password>
       </form>
 
-      <mwc-button
+      <button-fab
+        extended
         icon="security"
         @click="${this}"
-        label="${t("sign-in.Sign_in")}"
-      ></mwc-button>
+        label=${t("sign-in.Sign_in")}
+      ></button-fab>
     `;
   }
 }

@@ -21,9 +21,10 @@ Starts a live-server on http://localhost:1596
 Official names are frozen in code [by-area](https://github.com/npolar/placenames/blob/master/src/placename/by-area/official/official-in-area.js), to allow more efficient [name detection](https://github.com/npolar/placenames/blob/master/src/placename/detect.js)
 
 To update, create a branch, run the commands below, and submit a pull request.
+
 ```sh
 npm i -g ndjson-cli
-branch="update-official-`date -uI`"
+branch="freeze-official-`date -uI`"
 git checkout -b $branch
 ./bin/placenames-freeze-official
 git commit -m "Updated frozen names" src/placename/by-area/official/*.js
