@@ -1,7 +1,7 @@
 {
   "name": "@npolar/placenames",
   "type": "module",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "[Place names](https://stadnamn.npolar.no/) app built with ES2019 web components",
   "devDependencies": {
     "eslint": "=6.8.0",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@npolar/fetch-api": "https://github.com/npolar/fetch-api#v1.0.0",
-    "@npolar/mdc": "https://github.com/npolar/mdc#v0.10.0",
+    "@npolar/mdc": "https://github.com/npolar/mdc#v0.11.0",
     "@npolar/patch-event": "https://github.com/npolar/patch-event#v1.0.1",
     "leaflet": "=1.7.1",
     "lit-element": "=2.3.1"

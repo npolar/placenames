@@ -7,3 +7,5 @@ bin/bulk
 *.traineddata
 yarn.lock
 package-lock.json
+
+.vercel
