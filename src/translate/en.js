@@ -1,6 +1,7 @@
 import npolar from "@npolar/mdc/src/dict/npolar/en.js";
 import placename from "../placename/translate/en.js";
 import { en as country } from "../vocab/country.js";
+import { en as terrain } from "../vocab/terrain.js";
 
 const name = "Place names in Norwegian polar areas";
 const heading = "Polar place names";
@@ -48,6 +49,13 @@ export default {
     nb: "Norwegian bokmål",
     nn: "Norwegian nynorsk",
     en: "English",
+    ru: "Russian",
+    fr: "French",
+    is: "Islandic",
+    nl: "Dutch",
+    de: "German",
+    it: "Italian",
+    sv: "Swedish",
     switch: {
       no: "norsk",
       en: "English",
@@ -68,5 +76,7 @@ export default {
   area: {
     Arktis: "Arctic",
     Antarktis: "Antarctic",
+    ["Generell art"]: "Generic",
   },
+  terrain,
 };

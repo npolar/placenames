@@ -112,7 +112,7 @@ export class PlacenameNew extends LitElement {
             </h1>
           </div>
           <div class="edit-box">
-            <mwc-textfield
+            <input-text
               required
               validationMessage=${!valid
                 ? `${t("any.min")} 3 ${t("any.characters")}`
@@ -132,7 +132,7 @@ export class PlacenameNew extends LitElement {
                 this.feature = { ...this.feature, name: value };
               }}
             >
-            </mwc-textfield>
+            </input-text>
           </div>
 
           ${select("area", ["", ...areas], {
@@ -144,7 +144,7 @@ export class PlacenameNew extends LitElement {
             t,
           })}
 
-          <mwc-textfield
+          <input-text
             value=${cases ? cases[0]["@id"] : ""}
             label="${t("case.number")}"
             outlined
@@ -157,7 +157,7 @@ export class PlacenameNew extends LitElement {
               };
             }}
           >
-          </mwc-textfield>
+          </input-text>
           <button-fab
             ?hidden="${!authorized || !valid}"
             class="primary-fab"

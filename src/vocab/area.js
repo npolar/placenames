@@ -5,8 +5,9 @@ export const BV = "Bouvetøya";
 export const DML = "Dronning Maud Land";
 export const AQ = "Antarktis";
 export const ARCTIC = "Arktis";
+export const GA = "Generell art";
 
-export const areas = [ARCTIC, AQ, SV, JM, BV, P1, DML].sort();
+export const areas = [GA, ARCTIC, AQ, SV, JM, BV, P1, DML].sort();
 
 export const areaCode = [
   [SV, "sv"],

@@ -109,6 +109,7 @@ export default {
     it: "italiensk",
     fr: "fransk",
     is: "islandsk",
+    de: "tysk",
     switch: {
       no: "norsk",
       en: "English",

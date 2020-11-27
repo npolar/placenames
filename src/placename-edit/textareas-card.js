@@ -17,7 +17,7 @@ export const textareasCard = (
     <fieldset>
       <legend slot="header">
         <h1 class="mdc-typography--headline5">
-          ${t(`name.${field}`)}
+          ${t(`name.${field}`)} 
         </h1>
       </legend>
       ${["nn", "en"].map(
