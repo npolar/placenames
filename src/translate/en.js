@@ -51,7 +51,7 @@ export default {
     en: "English",
     ru: "Russian",
     fr: "French",
-    is: "Islandic",
+    is: "Icelandic",
     nl: "Dutch",
     de: "German",
     it: "Italian",
