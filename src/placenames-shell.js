@@ -1,6 +1,6 @@
 // security
 import { isValidJWT, getJWTIfValid, getJWT, setJWT, deleteJWT, refreshJWT } from "./store/user.js";
-import { payload } from './fetch-api/jwt.js'
+import { payload } from '@npolar/fetch-api/src/jwt.js'
 
 // routing
 import { routes } from "./routes.js";
@@ -152,7 +152,7 @@ export class PlacenamesShell extends AppShellMixin({
   }
 
   beforeMain() {
-    const { handleTabNav, activeTab, tabClicked, authorized, authenticated } = this;
+    const { handleTabNav, activeTab, tabClicked, authorized } = this;
 
     return html`
     ${ this.renderWarningLogOut() }
