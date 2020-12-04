@@ -8,6 +8,13 @@ const SYSTEM = "https://api.npolar.no/placename";
 export const storage = localStorage;
 export const getJWT = async () => storage.getItem(JWTKEY);
 
+export const refreshJWT = async (host) => {
+  const jwt = await getJWT()
+  const response = await refresh({jwt, host})
+  const { token } = await response.json()
+  await setJWT(token)
+}
+
 export const getJWTIfValid = async () => {
   const jwt = await getJWT();
   return isValidJWT(jwt) ? jwt : undefined;
