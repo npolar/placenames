@@ -3,6 +3,8 @@ import {
   TileLayer,
 } from "leaflet/dist/leaflet-src.esm.js";
 
+import { dataSet, institute } from './constants.js';
+
 const eventFactory = (name, detail) =>
   new CustomEvent(name, { detail, bubbles: true, composed: true });
 
@@ -28,6 +30,10 @@ export class LeafletElement extends HTMLElement {
       layers,
     };
     this.map = new LeafletMapClass(elmt, config);
+    this
+      .map
+      .attributionControl
+      .setPrefix(`<a href="${dataSet.url}">${dataSet.name}</a> (${institute})`)
     return this.map;
   }
 
