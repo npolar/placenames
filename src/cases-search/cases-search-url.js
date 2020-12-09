@@ -1,12 +1,14 @@
 import { _search } from "../api/v2/placename/case/search.js";
+import { endpoint } from "../api/v2/placename/case/endpoint.js";
+
 export const casesSearchURL = ({
-  endpoint = "",
+  endpoint,
   sort,
   q,
   filters,
   not,
   ...params
-}) => {
+} = {}) => {
   const v2url = new URL(_search);
 
   const v2params = v2url.searchParams;
@@ -27,11 +29,12 @@ export const casesSearchURL = ({
   } else {
     v2params.set("q", q);
   }
-  if (filters.has("date")) {
-    v2params.set("and", `date:${filters.get("date")}`);
-  }
-  if (filters.has("area")) {
-    v2params.set("and", `area:${filters.get("area")}`);
+
+  // v2params.set("facet", "area"); // FIXME Faceting does not work!?
+  
+  for (const [k, v] of filters) {
+    console.log(k,v)
+    v2params.append("and", `${k}:${v}`)
   }
   if (sort) {
     const sortfield = sort.replace("-", "");
@@ -39,7 +42,6 @@ export const casesSearchURL = ({
     v2params.set("sort", `${sortfield}:${sortdir}`);
   }
 
-  v2params.set("hide", "text,comment,created,updated,editor,version");
-  // v2params.set("facet", "area"); FIXME Faceting does not work!?
+  //v2params.set("hide", "text,comment,created,updated,editor,version");
   return v2url.href;
 };

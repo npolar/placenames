@@ -32,7 +32,7 @@ export const linkedPlacenames = ({
               href="/case/?area=${area}"
               title="Sjå alle saker merka ${area}"
             >
-              ${area} </a
+              ${t(`area.${area}`)} </a
             >)`
         : ""}
     </h2>

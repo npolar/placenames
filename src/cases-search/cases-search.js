@@ -7,7 +7,7 @@ import { base as caseBase } from "../case/base.js";
 import { isAuthorized } from "../store/user.js";
 
 // UI
-import { searchParams, add as addParam } from "@npolar/mdc//src/url/params.js";
+import { searchParams, add as addParam } from "@npolar/mdc/src/url/params.js";
 import { changeLang, get as tg, get as t } from "../translate/exports.js";
 import { html } from "lit-element";
 import { newCaseButton } from "../case-edit/new-case-button.js";
@@ -33,11 +33,18 @@ const renderCaseSearchResults = ({ entries = [], html, t }) =>
   );
 
 export class CasesSearch extends SearchAny {
+  static get properties() {
+    return {
+      filters: { type: Array }
+    }
+  }
+
   constructor() {
     super();
     this.endpoint = _search;
     this.searchURL = casesSearchURL;
     this.renderResults = renderCaseSearchResults;
+    this.authorize = false;
     this.renderAfter = newCaseButton;
   }
 
@@ -46,6 +53,8 @@ export class CasesSearch extends SearchAny {
     if (!params.has("q") && !params.has("sort")) {
       addParam(["sort", "-@id"]);
     }
+
+    super.connectedCallback();
 
     this.authorized = await isAuthorized({
       check: ({ rights }) => rights.includes("create"),
@@ -57,8 +66,6 @@ export class CasesSearch extends SearchAny {
       name: "@npolar/title",
       detail: { title: t("case.Cases") },
     });
-
-    super.connectedCallback();
   }
 }
 customElements.define("cases-search", CasesSearch);
