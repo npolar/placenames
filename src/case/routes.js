@@ -1,4 +1,5 @@
 import "../cases-search/cases-search.js";
+import { CasesSearch } from "../cases-search/cases-search.js";
 import "../case-article/case-article.js";
 import "../case-edit/case-edit.js";
 
@@ -19,7 +20,8 @@ const routes = (base) => [
   },
   {
     path: `${base}`,
-    component: "cases-search",
+    action: () => new CasesSearch(),
+    // @todo should be investigate further
   },
   {
     path: `${base}/(.*)`,
