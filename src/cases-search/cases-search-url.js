@@ -29,8 +29,6 @@ export const casesSearchURL = ({
   } else {
     v2params.set("q", q);
   }
-
-  // v2params.set("facet", "area"); // FIXME Faceting does not work!?
   
   for (const [k, v] of filters) {
     console.log(k,v)
@@ -42,6 +40,7 @@ export const casesSearchURL = ({
     v2params.set("sort", `${sortfield}:${sortdir}`);
   }
 
-  //v2params.set("hide", "text,comment,created,updated,editor,version");
+  v2params.set("hide", "text,comment,created,updated,editor,version");
+  v2params.set("facet", "area"); 
   return v2url.href;
 };

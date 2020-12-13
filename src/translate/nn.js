@@ -75,6 +75,7 @@ export default {
   meeting: {
     number: "møtenummer",
   },
+  site,
   "placenames-shell": { name, heading, site },
   "placenames-search": {
     heading: "Polare stadnamn",

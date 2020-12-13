@@ -1,7 +1,5 @@
 import { LeafletElement } from "./leaflet-element.js";
-
-const attribution =
-  "Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community";
+import { attribution } from './constants.js';
 
 const minZoom = 0;
 
