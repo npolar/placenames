@@ -40,6 +40,6 @@ export const casesSearchURL = ({
   }
 
   v2params.set("hide", "text,comment,created,updated,editor,version");
-  // v2params.set("facet", "area"); FIXME Faceting does not work!?
+  v2params.set("facet", "area"); 
   return v2url.href;
 };
