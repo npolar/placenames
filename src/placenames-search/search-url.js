@@ -16,7 +16,7 @@ export const v1SearchURL = ({
     filters,
     ...params,
     variant: "feed",
-    facets: "area,status",
+    facets: "area,status,terrain",
     fields: "name,_id,status,area,relations,created,properties",
   });
 };
@@ -41,7 +41,7 @@ export const v2SearchURL = ({
   filters.delete("limit");
 
   v2params.set("page", `${start}..${limit}`);
-  v2params.set("facet", "area,status");
+  v2params.set("facet", "area,status,terrain");
   v2params.set("show", "name,id,area,status,beginLifespanVersion,replaced_by");
 
   for (const [k, v] of filters) {

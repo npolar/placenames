@@ -17,6 +17,7 @@ export const countries = [
 ];
 
 export const nn = {
+  "country_of_authority": "Autoritetsland",
   Country: "Land",
   country: "land",
   undefined: "Land manglar",
@@ -37,6 +38,7 @@ export const nn = {
 };
 
 export const en = {
+  "country_of_authority": "Country of authority",
   Country: "Country",
   country: "country",
   undefined: "Country missing",

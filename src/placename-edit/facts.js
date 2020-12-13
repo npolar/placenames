@@ -28,6 +28,7 @@ export const factsEdit = ({ feature, html, t }) => html` <card-mdc outlined>
     ${select("terrain", terreng, {
       value: feature.terrain,
       html,
+      prefix: "terrain.",
       t,
     })}
     ${select("country", ["", ...countries], {

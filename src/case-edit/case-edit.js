@@ -38,6 +38,7 @@ import { emit } from "@npolar/mdc/src/host/event.js";
 import { register, patch } from "@npolar/patch-event/src/exports.js";
 import { caseUpdated } from "../case-article/case-updated.js";
 import { caseProperties } from "../case-article/case-properties.js";
+import { select } from "./select.js";
 
 import { LitElement, html } from "lit-element";
 import { v2SearchURL as searchURLPlacenames } from "../placenames-search/search-url.js";
@@ -177,7 +178,7 @@ export class CaseEdit extends LitElement {
               </div>`
             : ""}
           <div class="edit-box">
-            <mwc-textfield
+            <text-area
               required
               not-null
               path="/title"
@@ -192,10 +193,10 @@ export class CaseEdit extends LitElement {
               maxlength="256"
               @invalid=${handleInvalid}
             >
-            </mwc-textfield>
+            <text-area>
           </div>
 
-          <mwc-textfield
+          <input-number
             required
             ?disabled=${this.number > 0 && meeting && meeting.number > 0}
             op="${!sak || !sak["@id"] ? "add" : "replace"}"
@@ -207,9 +208,9 @@ export class CaseEdit extends LitElement {
             outlined
             @invalid=${handleInvalid}
           >
-          </mwc-textfield>
+          </input-number>
 
-          <mwc-textfield
+          <input-number
             ?disabled=${this.number > 0 && meeting && meeting.number > 0}
             op="${!meeting ? "add" : "replace"}"
             path="/meeting/number"
@@ -219,9 +220,9 @@ export class CaseEdit extends LitElement {
             outlined
             @invalid=${handleInvalid}
           >
-          </mwc-textfield>
+          </input-number>
 
-          <mwc-textfield
+          <input-text
             op="${!date ? "add" : "replace"}"
             path="/date"
             value=${date ? date : ""}
@@ -231,34 +232,14 @@ export class CaseEdit extends LitElement {
             outlined
             @invalid=${handleInvalid}
           >
-          </mwc-textfield>
+          </input-text>
 
-          <mwc-select
-            @action="${({
-              currentTarget: {
-                selected: { value },
-              },
-            }) => {
-              this.case = { ...this.case, area: value };
-            }}"
-            id="area"
-            _path="/area"
-            label="${t("area.area")}"
-            activatable
-            outlined
-          >
-            ${["", ...areas].map(
-              (a) =>
-                html`<mwc-list-item
-                  graphic="icon"
-                  value="${a}"
-                  ?selected="${area && a === area}"
-                  ?activated="${area && a === area}"
-                >
-                  ${a}
-                </mwc-list-item>`
-            )}
-          </mwc-select>
+          ${select("area", ["", ...areas], {
+            value: area ? area : "",
+            prefix: "area.",
+            html,
+            t,
+          })}
 
           <mwc-textarea
             op="${protocol ? "replace" : "add"}"
@@ -279,7 +260,7 @@ export class CaseEdit extends LitElement {
             op="${!comment ? "add" : "replace"}"
             path="/comment"
             value=${comment ? comment : ""}
-            placeholder="${t("case.comment")}"
+            label="${t("case.comment")}"
             fullwidth
             outlined
             charCounter
@@ -308,4 +289,5 @@ export class CaseEdit extends LitElement {
     // that again triggers HTTP PUT
   }
 }
+
 customElements.define("case-edit", CaseEdit);

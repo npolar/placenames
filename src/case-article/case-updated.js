@@ -95,15 +95,18 @@ export const caseUpdated = async (p, host) => {
       // Fetch name,id,gemetry for all linked names into case
       const {
         results,
-        stats: { totalResults },
+        stats,
       } = await findPlacenamesLinkingToCase(host.case["@id"]);
       //const casePlacenameIDs = new Set(placenames || [].map((p) => p.id));
       // Merge in placenames that links to host case
-      if (results && totalResults === results.length && totalResults > 0) {
-        console.warn({ results });
-        host.case.placenames = results;
-        host.placenames = results;
-        host.requestUpdate();
+      if (stats) {
+        const { totalResults } = stats
+        if (results && totalResults === results.length && totalResults > 0) {
+          console.warn({ results });
+          host.case.placenames = results;
+          host.placenames = results;
+          host.requestUpdate();
+        }
       }
     }
   }

@@ -13,6 +13,8 @@ const languagesForSpelling = [
   "fr",
   "nl",
   "ru",
+  "it",
+  "de",
 ].sort();
 const EDITING = "editing";
 const SAVING = "saving";
@@ -221,7 +223,7 @@ export class PlacenameEdit extends LitElement {
 
     document.querySelector("title").textContent = t("any.editing") + " " + name;
 
-    if (undefined === geometry) {
+    if (geometry === undefined) {
       geometry = { type: "Point", coordinates: [0, 0, 0] };
     }
     const { coordinates } = geometry;
@@ -405,7 +407,7 @@ export class PlacenameEdit extends LitElement {
                     value=${coordinates[0]}
                     path="/geometry/coordinates/0"
                   ></input-number>
-                  <mwc-textfield
+                  <input-number
                     type="number"
                     min="-90"
                     max="90"
@@ -416,8 +418,8 @@ export class PlacenameEdit extends LitElement {
                     op=""
                     path="/geometry/coordinates/1"
                   >
-                  </mwc-textfield>
-                  <input-mdc
+                  </input-number>
+                  <input-number
                     outlined
                     type="number"
                     max="9000"
@@ -426,7 +428,7 @@ export class PlacenameEdit extends LitElement {
                     value=${coordinates[2]}
                     path="/geometry/coordinates/2"
                   >
-                  </input-mdc>`
+                  </input-number>`
               : ""}
           </fieldset>
         </card-mdc>
