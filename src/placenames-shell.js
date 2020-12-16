@@ -1,6 +1,5 @@
 // security
-import { isValidJWT, getJWTIfValid, getJWT, setJWT, deleteJWT, refreshJWT } from "./store/user.js";
-import { payload } from '@npolar/fetch-api/src/jwt.js'
+import { isValidJWT, getJWT, setJWT, deleteJWT } from "./store/user.js";
 
 // routing
 import { routes } from "./routes.js";
@@ -23,7 +22,6 @@ import { getUserLang } from "./store/user.js";
 // UI
 import { whiteLogo } from "@npolar/mdc/src/app-shell/npolar-logo.js";
 import "@npolar/mdc/src/tab-bar/tab-bar.js";
-import "@npolar/mdc/src/dialog/dialog.js";
 
 // Internals
 import { AppShellMixin, Router } from "@npolar/mdc/src/app-shell/exports.js";
@@ -64,19 +62,12 @@ export class PlacenamesShell extends AppShellMixin({
     return {
       ...super.properties,
       activeTab: { type: Number },
-      aboutToLogOut : { type: Boolean },
-      sessionTime: { type: Number },
     };
   }
 
   // updated(p) {
   //   console.warn(p);
   // }
-  
-  constructor() {
-    super()
-    this._thresholdSessionTime = 60000 // 1min in ms
-  }
 
   drawer() {} //disable drawer
 
@@ -84,79 +75,10 @@ export class PlacenamesShell extends AppShellMixin({
     return whiteLogo({ host: this, t, html, height: "48" });
   }
 
-  async getRemainingTokenValidTime() {
-    const jwt = await getJWTIfValid()
-    if(!jwt) return undefined
-    
-    this.sessionTime = new Date(payload(jwt).exp*1000 - Date.now())
-    this.aboutToLogOut = this.sessionTime < this._thresholdSessionTime  
-  }
-
-  renderWarningLogOut() {
-    let { aboutToLogOut, sessionTime, _warningIntervalID: intervalID } = this
-
-    if(!aboutToLogOut) return html`` 
-
-    if(intervalID === undefined) {
-      intervalID = 
-        setInterval(
-          async () => {
-            await this.getRemainingTokenValidTime()
-          },
-          1000
-        )
-      this._warningIntervalID = intervalID
-    }
-
-    /* 
-     * Note: if one want to put the warning over a minute before the end of the
-     * session, change the output (as it is it will only print the number of
-     * seconds in UTC standard time).
-     */
-    return html`
-      <dialog-mdc open>
-        <button-up 
-          slot="primaryAction" 
-          dialogAction="refresh-session"
-          @click=${() => 
-            window.dispatchEvent(
-              new CustomEvent('closed', 
-                {
-                  detail: {action: 'refresh-session', intervalID}, 
-                  bubble: true
-                }
-              )
-            )
-          }>
-          Refresh
-        </button-up>
-        <button-up 
-          slot="secondaryAction" 
-          dialogAction="sign-out"
-          @click=${() => 
-            window.dispatchEvent(
-              new CustomEvent('closed', 
-                {
-                  detail: {action: 'sign-out', intervalID}, 
-                  bubble: true
-                }
-              )
-            )
-          }>
-          Log out
-        </button-up>
-        <div>Session is about to end. Would you like to refresh the session or log out?<div>
-        <div>Session expires in ${sessionTime.getUTCSeconds()}s.</div>
-      </dialog-mdc>
-    `
-  }
-
   beforeMain() {
     const { handleTabNav, activeTab, tabClicked, authorized } = this;
 
-    return html`
-    ${ this.renderWarningLogOut() }
-    <nav class="app-nav-left">
+    return html`<nav class="app-nav-left">
       <mwc-tab-bar activeIndex="${activeTab}">
         <mwc-tab
           href="${placenameBase}"
@@ -199,39 +121,11 @@ export class PlacenamesShell extends AppShellMixin({
     `;
   }
 
-  disconnectedCallback() {
-    const { _intervalID, _warningIntervalID } = this
-    super.disconnectedCallback()
-    for(const id of [_intervalID, _warningIntervalID])
-      if (id !== undefined) clearInterval(id)
-  }
-
   async connectedCallback() {
     super.connectedCallback();
     this.href = "/";
     this.handleURLChange();
     this.authenticated = isValidJWT(await getJWT());
-
-    this._intervalID = 
-      setInterval(
-        async () => await this.getRemainingTokenValidTime(), 
-        this._thresholdSessionTime / 2
-      )
-
-    window.addEventListener("closed", 
-      async ({ detail: {action, intervalID} }) => {
-        clearInterval(intervalID)
-        this._warningIntervalID = undefined
-        switch(action) {
-          case 'sign-out': 
-            await this.signOut()
-            break
-          case 'refresh-session':
-            await refreshJWT(this)
-            break
-        }
-    })
-
 
     window.addEventListener("popstate", () => this.handleURLChange());
 
