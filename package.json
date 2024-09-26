@@ -6,7 +6,7 @@
   "devDependencies": {
     "eslint": "=6.8.0",
     "prettier": "=2.0.5",
-    "rollup": "=1.32.1",
+    "rollup": "=2.79.2",
     "rollup-plugin-commonjs": "=10.1.0",
     "rollup-plugin-eslint": "<7",
     "rollup-plugin-filesize": "<7",
